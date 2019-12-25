@@ -7,7 +7,7 @@ React scratch is boilerplate React Js from scratch with webpack and this is read
 
  
 
-## 🚀 Getting started
+## Getting started
 
   
 
