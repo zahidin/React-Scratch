@@ -7,17 +7,53 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                exclude: /node-modules/,
+                exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader"
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                            "@babel/preset-react"
+                        ].map(require.resolve)
+                    }
                 }
             },
             {
-                test: /\.html$/,
+                test: /\.(scss|css|sass|less)$/,
+                use: [
+                    {loader: "style-loader"},
+                    {loader: "scss-loader"},
+                    {loader: "css-loader"},
+                    {loader: "sass-loader"},
+                    {loader: "less-loader"}
+                ]
+            },
+            {
+                test: /\.(png|jpg|gif|jpeg)$/i,
                 use: [
                     {
-                        loader: "html-loader"
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
                     }
+                ]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
+            },
+            {
+                test: /\.(html|htm)$/,
+                use: [
+                    {loader: "html-loader"},
+                    {loader: "htm-loader"}
                 ]
             },
             {
@@ -25,7 +61,7 @@ module.exports = {
                 use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
-                test: /\.(gif|png|jpe?g|svg)$/i,
+                test: /\.(gif|png|jpe?g|svg|jpeg)$/i,
                 use: [
                     "file-loader",
                     {
@@ -34,6 +70,15 @@ module.exports = {
                 ]
             }
         ]
+    },
+    output: {
+        filename: 'index.js',
+        publicPath: '/'
+    },
+    devServer: {
+        watchContentBase: true,
+        publicPath: "/",
+        historyApiFallback: true
     },
     resolve: {
         alias: {
